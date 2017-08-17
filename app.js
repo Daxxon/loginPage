@@ -32,10 +32,12 @@ app.use(express.static(__dirname));
 app.use((req, res, next) => {
   console.log("Your session ID: " + req.session.id);
   console.log("Requesting root URL: " + (req.originalUrl === '/'));
-  console.log("There is a user: " + (typeof req.session.user !== 'undefined'));
+  console.log("There is a user: " + (typeof req.session.username !== 'undefined'));
   console.log("User: " + req.session.user);
-  console.log("OriginalUrl with NO user: " + ((req.originalUrl === '/') && (typeof req.session.user === 'undefined')));
-  if (req.originalUrl === '/' && typeof req.session.user === 'undefined') {
+  console.log("OriginalUrl with NO user: " + ((req.originalUrl === '/') && (typeof req.session.username === 'undefined')));
+  console.log(req.session);
+  console.log(req.body);
+  if (req.originalUrl === '/' && typeof req.session.username === 'undefined') {
     console.log("REDIRECTING TO LOGIN PAGE");
     res.redirect('/login');
   } else {
@@ -56,7 +58,9 @@ app.get('/login/', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  console.log("REQUEST session: " + req.session);
+  req.session.username = req.body.username;
+  console.log("LOGGING IN...");
+  res.redirect('/');
 });
 
 app.listen(3000, () => console.log('SHOW ME WHAT YOU GOT'));
