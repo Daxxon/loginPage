@@ -28,7 +28,7 @@ app.use(session({
 app.use(express.static(__dirname));
 
 app.use((req, res, next) => {
-  if (req.originalUrl === '/' && typeof req.session.username === 'undefined') {
+  if (req.originalUrl !== '/login' && typeof req.session.username === 'undefined') {
     console.log("REDIRECTING TO LOGIN PAGE");
     res.redirect('/login');
   } else {
