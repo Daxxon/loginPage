@@ -62,6 +62,7 @@ res.redirect('/');
 });
 
 app.post('/logout', (req, res) => {
+  console.log("LOGGING OUT");
   req.session.username = undefined;
   res.render('login', users);
 });
